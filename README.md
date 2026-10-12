@@ -11,6 +11,8 @@ and keep working.
 - `plan-src/` — python sources for each plan PDF (build_*.py). Render with
   chromium headless, print to PDF.
 - `repository/` — the plan repository index and finished plan entries.
+- `worksheets/` — reflection worksheets (question text, PDF, PNG, render source).
+  First one: Fear of Failure, 15 questions.
 
 ## How I render a plan
 python3 build_<name>.py -> *.html -> chromium --headless=new --no-sandbox
