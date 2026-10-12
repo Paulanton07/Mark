@@ -12,7 +12,11 @@ and keep working.
   chromium headless, print to PDF.
 - `repository/` — the plan repository index and finished plan entries.
 - `worksheets/` — reflection worksheets (question text, PDF, PNG, render source).
-  First one: Fear of Failure, 15 questions.
+  - `fear-of-failure_15-questions.*` — first worksheet, now v2: one line per
+    question to actually answer on (was prompt-only). Two A4 pages.
+  - `behaviour patterns ` — an email Paul pushed in (Celastrina, a coaching
+    program). Reference only: the useful part is the patterns-as-protection
+    list, not the sales copy. Candidate topic for worksheet 02.
 
 ## How I render a plan
 python3 build_<name>.py -> *.html -> chromium --headless=new --no-sandbox
