@@ -13,8 +13,9 @@ LEG  = 700.0
 WALL = 900.0
 NF   = 4
 WALL_H = NF*PW          # 320
-TILT_DEG   = 22.5   # each leg off vertical (Paul's number); 45deg between the legs
-FOOT_DEG   = 32.0   # foot bevel
+TILT_DEG   = 25.4   # each leg off vertical, from Paul's 300 top gauge (asin 300/700)
+FOOT_DEG   = 33.0   # foot bevel (Paul's call, 14 Oct)
+LAP        = True   # the two legs cross one ON TOP of the other (Paul's own words)
 
 half  = (LEG/2.0)*math.sin(math.radians(TILT_DEG))
 vhalf = (LEG/2.0)*math.cos(math.radians(TILT_DEG))
@@ -82,33 +83,35 @@ def detail_svg():
     def sy(my): return pad + (vhalf - my)*s
     crossx, crossy = sx(0.0), sy(0.0)
     Lpx, Wpx = LEG*s, PW*s
+    tpx = T*s
     e = []
     e.append(f'<line x1="30" y1="{sy(-vhalf)+4:.1f}" x2="{wx-30}" y2="{sy(-vhalf)+4:.1f}" class="ground"/>')
-    # clamped straight plank (the reference you press the 32deg foot against)
+    # clamped straight plank (the reference you press the 33deg foot against)
     e.append(f'<rect x="{sx(-half-40):.1f}" y="{sy(-vhalf)-Wpx-10:.1f}" width="{(2*half+80)*s:.1f}" height="{Wpx*0.55:.1f}" class="part2"/>')
     e.append(f'<text x="{sx(0):.1f}" y="{sy(-vhalf)+20:.1f}" class="dimtxt" style="font-size:11px;">straight plank clamped to the table</text>')
-    # the two legs
+    # lower leg first (outside leg), then upper leg shifted up one thickness (inside leg)
     e.append(rotrect(crossx, crossy, Lpx, Wpx, +theta, 'leg'))
-    e.append(rotrect(crossx, crossy, Lpx, Wpx, -theta, 'leg'))
-    e.append(f'<circle cx="{crossx:.1f}" cy="{crossy:.1f}" r="5" class="screw"/>')
-    # top spread dim
+    e.append(rotrect(crossx, crossy - tpx, Lpx, Wpx, -theta, 'leg'))
+    # the crossing: upper leg lies on top of lower; one centre screw through both
+    e.append(f'<circle cx="{crossx:.1f}" cy="{crossy-tpx/2:.1f}" r="5" class="screw"/>')
+    # top spread dim, between the leg tips
     yt = sy(vhalf)-14
     e.append(f'<line x1="{sx(-half):.1f}" y1="{yt:.1f}" x2="{sx(half):.1f}" y2="{yt:.1f}" class="dim"/>')
     for xx in (-half, half):
         e.append(f'<line x1="{sx(xx):.1f}" y1="{yt-5:.1f}" x2="{sx(xx):.1f}" y2="{yt+5:.1f}" class="dim"/>')
-    e.append(f'<rect x="{crossx-30:.1f}" y="{yt-9:.1f}" width="60" height="18" fill="#fff"/>')
-    e.append(f'<text x="{crossx:.1f}" y="{yt:.1f}" class="dimtxt">{TOP_SPREAD:.0f} top spread</text>')
+    e.append(f'<rect x="{crossx-46:.1f}" y="{yt-9:.1f}" width="92" height="18" fill="#fff"/>')
+    e.append(f'<text x="{crossx:.1f}" y="{yt:.1f}" class="dimtxt">{TOP_SPREAD:.0f} top, inside to inside</text>')
     # 700 leg dim along the right leg
     e.append(f'<text x="{sx(half)+30:.1f}" y="{sy(40):.1f}" class="dimtxt v" style="font-size:11px;">700 leg</text>')
-    # centre callout
-    e.append(f'<line x1="{crossx+8:.1f}" y1="{crossy-4:.1f}" x2="{crossx+70:.1f}" y2="{crossy-34:.1f}" class="dim"/>')
-    e.append(f'<text x="{crossx+74:.1f}" y="{crossy-36:.1f}" class="dimtxt v" style="font-size:11px;">centre: 350 along, 40 across</text>')
+    # crossing callout
+    e.append(f'<line x1="{crossx+8:.1f}" y1="{crossy-6:.1f}" x2="{crossx+60:.1f}" y2="{crossy-40:.1f}" class="dim"/>')
+    e.append(f'<text x="{crossx+64:.1f}" y="{crossy-42:.1f}" class="dimtxt v" style="font-size:11px;">upper leg on top</text>')
     # foot angle labels
-    e.append(f'<text x="{sx(-half)-10:.1f}" y="{sy(-vhalf)+2:.1f}" class="dimtxt" style="font-size:11px;">32&deg; foot</text>')
-    e.append(f'<text x="{sx(half)+10:.1f}" y="{sy(-vhalf)+2:.1f}" class="dimtxt" style="font-size:11px;">32&deg; foot</text>')
+    e.append(f'<text x="{sx(-half)-10:.1f}" y="{sy(-vhalf)+2:.1f}" class="dimtxt" style="font-size:11px;">33&deg; foot</text>')
+    e.append(f'<text x="{sx(half)+10:.1f}" y="{sy(-vhalf)+2:.1f}" class="dimtxt" style="font-size:11px;">33&deg; foot</text>')
     # leg-tilt callouts at the crossing
     e.append(f'<line x1="{crossx:.1f}" y1="{crossy:.1f}" x2="{crossx:.1f}" y2="{crossy-vhalf*s*0.72:.1f}" class="dim" stroke-dasharray="4 3"/>')
-    e.append(f'<text x="{crossx+26:.1f}" y="{crossy-vhalf*s*0.62:.1f}" class="dimtxt v" style="font-size:12px;">22.5&deg; a side</text>')
+    e.append(f'<text x="{crossx-6:.1f}" y="{crossy-vhalf*s*0.62:.1f}" class="dimtxt" style="font-size:12px;text-anchor:end;">{TILT_DEG:.1f}&deg; a side</text>')
     e.append(f'<text x="20" y="15" class="vt">X JOINT - stage 1</text>')
     return (f'<svg width="{wx}" height="{int(2*vhalf*s+2*pad):d}" viewBox="0 0 {wx} {int(2*vhalf*s+2*pad):d}">'
             + "".join(e) + '</svg>')
@@ -153,8 +156,8 @@ def tile_svg(step):
     return f'<svg width="{w}" height="{h}" viewBox="0 0 {w} {h}">{"".join(e)}</svg>'
 
 TILE_CAP = {
- "1":"<b>Stage 1 - the X legs.</b> Cut one end of each 700 leg at 32&deg;. Cross two: centre 350 along, 40 across. Screw or bolt the crossing so each leg sits 22.5&deg; off vertical - a shallow X. Make two, mirrored - one plank inside, one outside, left and right.",
- "2":"<b>Stage 2 - stand them and start the floor.</b> Stand the two X sets parallel. Cut one 900 at 22.5&deg; to sit snug in the V. The back one lands 23&nbsp;mm higher, so trim 23&nbsp;mm off it so both tops come level.",
+ "1":"<b>Stage 1 - the X legs.</b> Cut one end of each 700 leg at 33&deg;. Cross two: the upper leg lies straight <b>on top of</b> the lower one. Centre 350 along, 40 across, one screw through the middle. Make two, mirrored - one set inside, one outside, both at the same 300 top.",
+ "2":"<b>Stage 2 - stand them and start the floor.</b> Stand the two X sets parallel, 300 top. Cut one edge of the first 900 to sit snug in the V. The back one lands one thickness (23&nbsp;mm) higher, so trim 23&nbsp;mm off it so both tops come level.",
  "3":"<b>Stage 3 - the rest of the 900s.</b> 4 planks on the front, 4 on the back, flush with the left and right X. The back sits 23&nbsp;mm proud behind the outside leg. Screw down front and back.",
  "4":"<b>Stage 4 - the sides.</b> Hold an offcut in the V, mark the angle, cut the first side piece. Next piece higher: mark off the first, cut, glue and screw on top. Third the same. Mirror the other end.",
 }
@@ -168,17 +171,18 @@ def tiles_html():
 
 STEPS = [
  ("1","<b>The X legs.</b><ul>"
-      "<li>Four legs, 700 long. Cut <b>one end of each</b> at 32&deg; - all four off the <b>same saw setting</b>.</li>"
+      "<li>Four legs, 700 long. Cut <b>one end of each</b> at 33&deg; - all four off the <b>same saw setting</b>.</li>"
       "<li>Find the centre of each leg: 350 along, 40 across (half of 80).</li>"
-      "<li>Clamp a straight plank to the table. Press the 32&deg; end flush against it.</li>"
-      "<li>Lay the second leg on top to make the X. Pilot hole at the centre.</li>"
-      "<li>Drive a 35&nbsp;mm part-threaded screw so the two pieces sit at <b>22.5&deg; each off vertical</b> (about 45&deg; open at the X) and the foot sits flush to the clamped plank.</li>"
+      "<li>Clamp a straight plank to the table. Press the 33&deg; end flush against it.</li>"
+      "<li>Lay the second leg <b>straight on top of the first</b> to make the X. Pilot hole at the centre.</li>"
+      "<li>Drive a 35&nbsp;mm part-threaded screw down through both at the centre so the upper leg sits on the lower one.</li>"
       "<li>Then 3-4 more screws, or swap to a 6&nbsp;mm or 10&nbsp;mm bolt through the crossing.</li>"
-      "<li>Make the second set a <b>mirror</b>: one plank inside, one outside, on both left and right.</li></ul>",
+      "<li>Set the <b>top to 300, inside corner to inside corner</b> - that is your gauge. Make the second set the same.</li></ul>",
       "<ul><li>One saw setting for all four feet = feet that sit level. Cut them one at a time and they fight.</li>"
       "<li>The clamped plank is the reference - it stops the X leaning while you screw.</li>"
+      "<li>The legs do not notch into each other: one lies full-thickness on top of the other. That gives an inside leg and an outside leg.</li>"
       "<li>A single screw lets the X scissor. Extra screws or a bolt lock the crossing.</li>"
-      "<li>Mirrored handed frames make the box symmetrical, so the trough sits level.</li></ul>"),
+      "<li>300 top on both sets = the box sits level and the walls line up.</li></ul>"),
  ("2","<b>Stand them and lay the first two planks.</b><ul>"
       "<li>Stand the two X sets parallel, on the ground.</li>"
       "<li>Lay the first two 900 planks in the V, one front, one back.</li>"
@@ -226,22 +230,23 @@ html = f'''<!doctype html><html><head><meta charset="utf-8"><style>{CSS}</style>
 <h1>X-Leg Herb Trough <span class="tag">your build &middot; v2</span></h1>
 <div class="sub"><ul>
 <li>Your numbers. Two X-leg frames carry a 900&nbsp;long trough between them.</li>
-<li>Legs <b>4&times;700</b>, one end cut 32&deg;. Cross planks <b>8&times;900</b>, four front and four back. Planks 80 wide &times; 23 thick.</li>
-<li><b>The X is narrow, not square.</b> Each leg sits 22.5&deg; off vertical, so only about 45&deg; opens at the crossing. The trough sits in that V.</li>
+<li>Legs <b>4&times;700</b>, one end cut 33&deg;. Cross planks <b>8&times;900</b>, four front and four back. Planks 80 wide &times; 23 thick.</li>
+<li><b>The X is set by the top.</b> Both leg tops sit <b>300 apart, inside corner to inside corner</b> - that is your gauge, and you cut to it so every X matches.</li>
+<li>The two legs do not notch: the upper leg lies straight <b>on top of</b> the lower one, so there is an inside leg and an outside leg.</li>
 <li>The sides are not cut to a number. They are <b>scribed off an offcut</b> held in the V, one on top of the last.</li>
 <li>Shown at 900 long, four planks deep. Dimensions in mm.</li></ul></div>
 
 <div class="draw">{detail_svg()}</div>
-<div class="cap"><b>Stage 1 - the joint that decides the box.</b> Two 700 legs crossed at their centres, each 22.5&deg; off vertical. That shallow crossing is what makes the V the trough sits in, and it is drawn from your build photo. Get the foot flush on the clamped plank and the frame stands true.</div>
+<div class="cap"><b>Stage 1 - the joint that decides the box.</b> Two 700 legs crossed at their centres, upper leg lying on the lower, top set to 300. Get the foot flush on the clamped plank and the top to 300 and the frame stands true - and both frames match.</div>
 
 <div class="pg">
 <h2>Cut list</h2>
 <table>
   <tr><th>Part</th><th>Qty</th><th>Length</th><th>Width</th><th>Thick</th><th>Note</th></tr>
-  <tr><td>Leg</td><td>4</td><td>700</td><td>80</td><td>23</td><td>one end cut 32&deg;, all four one setting</td></tr>
+  <tr><td>Leg</td><td>4</td><td>700</td><td>80</td><td>23</td><td>one end cut 33&deg;, all four one setting</td></tr>
   <tr><td>Cross plank (wall)</td><td>8</td><td>900</td><td>80</td><td>23</td><td>4 front, 4 back</td></tr>
   <tr><td>Side piece</td><td>6</td><td>scribed</td><td>80</td><td>23</td><td>3 per end, marked off an offcut</td></tr>
-  <tr><td>- of those, the bottom pair</td><td>2</td><td>900</td><td>80</td><td>23</td><td>front edge cut 22.5&deg;; back trimmed 23&nbsp;mm</td></tr>
+  <tr><td>- of those, the bottom pair</td><td>2</td><td>900</td><td>80</td><td>23</td><td>front edge cut to sit in the V; back trimmed 23&nbsp;mm</td></tr>
 </table>
 <h2>Material</h2>
 <div class="sub" style="font-size:15px;"><ul>
@@ -251,14 +256,14 @@ html = f'''<!doctype html><html><head><meta charset="utf-8"><style>{CSS}</style>
 <li>Stainless or coated only. Wood oil (Woodoc) outside and on the feet.</li>
 </ul></div>
 <div class="q"><b>Two rules that decide this build</b><ul>
-<li><b>One saw setting for all four feet.</b> Cut every 32&deg; end off the same stop. One foot cut on its own and the box stands on three legs.</li>
+<li><b>One saw setting for all four feet.</b> Cut every 33&deg; end off the same stop. One foot cut on its own and the box stands on three legs.</li>
 <li><b>Lock the crossing.</b> A single screw lets the X scissor. Add 3-4 screws, or bolt it.</li></ul></div>
 <div class="q"><b>Locked in from your build photos (14 Oct)</b><ul>
-<li><b>The crossing is narrow.</b> Each leg 22.5&deg; off vertical - about 45&deg; open at the X, not the square X I drew in v1. Drawn from your photo of the joint (below).</li>
-<li><b>One wall flush, one proud.</b> The back planks run <b>flush to the outside leg</b>. The front planks stand <b>23&nbsp;mm proud</b> (one plank thickness), as in your shots.</li>
-</ul></div>
-<div class="q"><b>One number to settle</b><ul>
-<li>22.5&deg; a side on a 700 leg puts the top corners about <b>268&nbsp;mm</b> apart. Your tape marks 300, which is nearer 26&deg; a side. I have drawn your 22.5&deg;. Tell me the top-corner spread you actually cut to and I lock the drawing to it.</li>
+<li><b>Top = 300, inside corner to inside corner.</b> Your gauge to check every X comes out the same.</li>
+<li><b>Feet cut at 33&deg;</b> so they sit flat. Method: clamp a plank, leg flush, one centre screw into the middle of the plank.</li>
+<li><b>The two legs cross one on top of the other.</b> No notch - the upper leg lies full-thickness on the lower, so there is an inside leg and an outside leg.</li>
+<li><b>Spacer blocks at the shoulder.</b> Small blocks fill the gap between the angled leg head and the underside of the first planks. Drawn from the ~60 and ~75&nbsp;mm marks in your shots.</li>
+<li><b>One wall flush, one proud.</b> The back planks run <b>flush to the outside leg</b>; the front planks stand <b>23&nbsp;mm proud</b> (one plank thickness), as in your shots.</li>
 </ul></div>
 </div>
 
@@ -282,8 +287,8 @@ html = f'''<!doctype html><html><head><meta charset="utf-8"><style>{CSS}</style>
 <h1 style="font-size:23px;">Your build, 14 Oct <span class="tag">reference</span></h1>
 <div class="sub">The four shots you sent. These are the ones the drawings answer to.</div>
 <div class="refgrid">
-<figure><img src="file:///workspace/plan/ref_joint.jpg"><figcaption><b>The X joint.</b> Shallow crossing - 22.5&deg; a side. The leg sits on top and is screwed through the centre.</figcaption></figure>
-<figure><img src="file:///workspace/plan/ref_foot.jpg"><figcaption><b>The foot.</b> The 32&deg; cut sitting flat, and the crossing above it with the centre screw in.</figcaption></figure>
+<figure><img src="file:///workspace/plan/ref_joint.jpg"><figcaption><b>The X joint.</b> The upper leg lies on top of the lower - no notch. One screw through the centre.</figcaption></figure>
+<figure><img src="file:///workspace/plan/ref_foot.jpg"><figcaption><b>The foot.</b> The 33&deg; cut sitting flat, and the crossing above it with the centre screw in.</figcaption></figure>
 <figure><img src="file:///workspace/plan/ref_floor.jpg"><figcaption><b>The floor.</b> First planks laid across, sitting in the V of the two frames.</figcaption></figure>
 <figure><img src="file:///workspace/plan/ref_top.jpg"><figcaption><b>Top view of the set.</b> Crossed legs on the tray, tape marks where you set the spread and the angle.</figcaption></figure>
 </div>
