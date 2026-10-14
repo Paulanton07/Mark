@@ -10,6 +10,9 @@ and keep working.
 ## What lives here
 - `plan-src/` — python sources for each plan PDF (build_*.py). Render with
   chromium headless, print to PDF.
+- `guides/` — rendered guide HTML + PDF as handed over (the deliverable, not
+  just the source). Latest: `herb-box-v2.*`, the X-leg herb trough, six pages
+  (cut list, four build stages, bench-photo reference).
 - `repository/` — the plan repository index and finished plan entries.
 - `worksheets/` — reflection worksheets (question text, PDF, PNG, render source).
   - `fear-of-failure_15-questions.*` — first worksheet, now v2: one line per
