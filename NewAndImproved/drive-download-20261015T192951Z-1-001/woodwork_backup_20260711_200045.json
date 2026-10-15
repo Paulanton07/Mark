@@ -1,0 +1,154 @@
+{
+  "exportDate": "2026-07-11T20:00:45Z",
+  "appVersion": "1.0",
+  "clients": [
+    {
+      "id": 3,
+      "name": "wild & raw",
+      "phone": "",
+      "email": "",
+      "notes": ""
+    }
+  ],
+  "lumberStock": [
+    {
+      "id": 4,
+      "species": "Baltic pine",
+      "thickness": "A",
+      "plankCount": 30,
+      "plankLengthMM": 2000,
+      "plankWidthMM": 80,
+      "plankThicknessMM": 23,
+      "quantityBF": 0.1104,
+      "costPerBF": 9510.86956521739,
+      "notes": ""
+    },
+    {
+      "id": 5,
+      "species": "Baltic split planks",
+      "thickness": "A Grade",
+      "plankCount": 4,
+      "plankLengthMM": 2000,
+      "plankWidthMM": 40,
+      "plankThicknessMM": 23,
+      "quantityBF": 0.00736,
+      "costPerBF": 9239.130434782608,
+      "notes": "cut planks one standard plank split down the middle"
+    },
+    {
+      "id": 1,
+      "species": "Black Walnut",
+      "thickness": "8\/4",
+      "plankCount": 20381,
+      "plankLengthMM": 2000,
+      "plankWidthMM": 80,
+      "plankThicknessMM": 23,
+      "quantityBF": 75,
+      "costPerBF": 12.5,
+      "notes": "Premium select slab wood"
+    },
+    {
+      "id": 3,
+      "species": "Hard Maple",
+      "thickness": "4\/4",
+      "plankCount": 0,
+      "plankLengthMM": 2000,
+      "plankWidthMM": 80,
+      "plankThicknessMM": 23,
+      "quantityBF": 150,
+      "costPerBF": 8.2,
+      "notes": "Uniform figured stock"
+    },
+    {
+      "id": 2,
+      "species": "White Oak",
+      "thickness": "4\/4",
+      "plankCount": 0,
+      "plankLengthMM": 2000,
+      "plankWidthMM": 80,
+      "plankThicknessMM": 23,
+      "quantityBF": 85,
+      "costPerBF": 9.8,
+      "notes": "Riftsawn and stable"
+    },
+    {
+      "id": 6,
+      "species": "roof trusses",
+      "thickness": "A",
+      "plankCount": 10,
+      "plankLengthMM": 3000,
+      "plankWidthMM": 114,
+      "plankThicknessMM": 32,
+      "quantityBF": 0.10944000000000001,
+      "costPerBF": 9137.426900584795,
+      "notes": ""
+    }
+  ],
+  "hardwareStock": [
+    {
+      "id": 2,
+      "name": "18\" Undermount Drawer Slides",
+      "quantity": 8,
+      "costPerUnit": 26.5,
+      "notes": "Tandem soft-close roller tracks"
+    },
+    {
+      "id": 1,
+      "name": "Blum Clip Top Blumotion 110°",
+      "quantity": 32,
+      "costPerUnit": 4.8,
+      "notes": "Cabinet door soft closing hinge"
+    },
+    {
+      "id": 3,
+      "name": "chip board screws",
+      "quantity": 700,
+      "costPerUnit": 0.25,
+      "notes": ""
+    }
+  ],
+  "projects": [
+    {
+      "id": 5,
+      "title": "large planter top\/cover",
+      "clientId": 3,
+      "status": "Quote",
+      "startDate": 1781605272978,
+      "targetDeliveryDate": 1781778072978,
+      "salePrice": 800,
+      "laborHoursEst": 8,
+      "laborRate": 35,
+      "otherCosts": 100,
+      "notes": ""
+    },
+    {
+      "id": 1,
+      "title": "Walnut Dining Table 7ft",
+      "clientId": 1,
+      "status": "In Progress",
+      "startDate": 1780726684264,
+      "targetDeliveryDate": 1782800284264,
+      "salePrice": 3200,
+      "laborHoursEst": 35,
+      "laborRate": 60,
+      "otherCosts": 180,
+      "notes": "Deep hand-rubbed oil finish. Mirror grain layout with bookmatched walnut slabs."
+    },
+    {
+      "id": 4,
+      "title": "large planter",
+      "clientId": null,
+      "status": "In Progress",
+      "startDate": 1781591329916,
+      "targetDeliveryDate": 1784183329916,
+      "salePrice": 950,
+      "laborHoursEst": 16,
+      "laborRate": 35,
+      "otherCosts": 200,
+      "notes": "Converted from quote: wild & raw"
+    }
+  ],
+  "lumberAllocations": [],
+  "hardwareAllocations": [],
+  "milestones": []
+}
