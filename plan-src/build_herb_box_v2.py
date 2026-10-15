@@ -2,9 +2,9 @@
 # Paul's X-leg herb trough - build guide v1 (phone-readable A4 portrait).
 # Drawn from Paul's spec (x-herb box.md) + the agreed 4-stage order:
 #   1 X legs   2 stand them + first planks in the V   3 the rest of the 900s   4 sides off an offcut
-# Stock: planks 80 wide x 23 thick. Legs 4x 700 (one end cut 32deg). Cross planks 8x 900 (4 front, 4 back).
-# Hero drawing is the X JOINT (stage 1). The two angles (32deg foot vs 22.5deg crossing) get
-# confirmed against Paul's build photo before v2 ships; the stage order is the value here.
+# Stock: planks 80 wide x 23 thick. Legs 4x 700 (one end cut 33deg). Cross planks 8x 900 (4 front, 4 back).
+# Hero drawing is the X JOINT (stage 1). Each leg stands 33deg off vertical (his foot bevel is the same 33).
+# The legs cross one on top of the other - no notch. Top gauge = 300 inside corner to inside corner.
 import math
 
 PW   = 80.0
@@ -13,14 +13,16 @@ LEG  = 700.0
 WALL = 900.0
 NF   = 4
 WALL_H = NF*PW          # 320
-TILT_DEG   = 25.4   # each leg off vertical, from Paul's 300 top gauge (asin 300/700)
+TILT_DEG   = 33.0   # each leg off vertical - Paul's call, 15 Oct (same as the foot bevel)
 FOOT_DEG   = 33.0   # foot bevel (Paul's call, 14 Oct)
 LAP        = True   # the two legs cross one ON TOP of the other (Paul's own words)
 
-half  = (LEG/2.0)*math.sin(math.radians(TILT_DEG))
+half  = (LEG/2.0)*math.sin(math.radians(TILT_DEG))   # leg centrelines, top and bottom
 vhalf = (LEG/2.0)*math.cos(math.radians(TILT_DEG))
+# inner faces of the two legs at the top - this is the 300 he tapes
+half_inner = half - (PW/2.0)/math.cos(math.radians(TILT_DEG))
 theta = TILT_DEG
-TOP_SPREAD = 2*half
+TOP_GUAGE = 300.0
 
 CSS = """
 @page { size: A4 portrait; margin: 10mm; }
@@ -90,17 +92,17 @@ def detail_svg():
     e.append(f'<rect x="{sx(-half-40):.1f}" y="{sy(-vhalf)-Wpx-10:.1f}" width="{(2*half+80)*s:.1f}" height="{Wpx*0.55:.1f}" class="part2"/>')
     e.append(f'<text x="{sx(0):.1f}" y="{sy(-vhalf)+20:.1f}" class="dimtxt" style="font-size:11px;">straight plank clamped to the table</text>')
     # lower leg first (outside leg), then upper leg shifted up one thickness (inside leg)
-    e.append(rotrect(crossx, crossy, Lpx, Wpx, +theta, 'leg'))
-    e.append(rotrect(crossx, crossy - tpx, Lpx, Wpx, -theta, 'leg'))
+    e.append(rotrect(crossx, crossy, Lpx, Wpx, -(90.0-theta), 'leg'))
+    e.append(rotrect(crossx, crossy - tpx, Lpx, Wpx, -(90.0+theta), 'leg'))
     # the crossing: upper leg lies on top of lower; one centre screw through both
     e.append(f'<circle cx="{crossx:.1f}" cy="{crossy-tpx/2:.1f}" r="5" class="screw"/>')
     # top spread dim, between the leg tips
     yt = sy(vhalf)-14
-    e.append(f'<line x1="{sx(-half):.1f}" y1="{yt:.1f}" x2="{sx(half):.1f}" y2="{yt:.1f}" class="dim"/>')
-    for xx in (-half, half):
+    e.append(f'<line x1="{sx(-half_inner):.1f}" y1="{yt:.1f}" x2="{sx(half_inner):.1f}" y2="{yt:.1f}" class="dim"/>')
+    for xx in (-half_inner, half_inner):
         e.append(f'<line x1="{sx(xx):.1f}" y1="{yt-5:.1f}" x2="{sx(xx):.1f}" y2="{yt+5:.1f}" class="dim"/>')
     e.append(f'<rect x="{crossx-46:.1f}" y="{yt-9:.1f}" width="92" height="18" fill="#fff"/>')
-    e.append(f'<text x="{crossx:.1f}" y="{yt:.1f}" class="dimtxt">{TOP_SPREAD:.0f} top, inside to inside</text>')
+    e.append(f'<text x="{crossx:.1f}" y="{yt:.1f}" class="dimtxt">{TOP_GUAGE:.0f} top, inside to inside</text>')
     # 700 leg dim along the right leg
     e.append(f'<text x="{sx(half)+30:.1f}" y="{sy(40):.1f}" class="dimtxt v" style="font-size:11px;">700 leg</text>')
     # crossing callout
@@ -118,7 +120,7 @@ def detail_svg():
 
 # ---------- stage tiles ----------
 def xglyph(cx, cy, sz):
-    hw = sz*math.tan(math.radians(22.5))   # true crossing: legs 22.5deg off vertical
+    hw = sz*math.tan(math.radians(33.0))   # true crossing: legs 33deg off vertical
     return (f'<line x1="{cx-hw:.1f}" y1="{cy-sz:.1f}" x2="{cx+hw:.1f}" y2="{cy+sz:.1f}" stroke="#2a2a2a" stroke-width="3.4" stroke-linecap="round"/>'
             f'<line x1="{cx+hw:.1f}" y1="{cy-sz:.1f}" x2="{cx-hw:.1f}" y2="{cy+sz:.1f}" stroke="#2a2a2a" stroke-width="3.4" stroke-linecap="round"/>')
 
@@ -130,7 +132,7 @@ def tile_svg(step):
     if step == 1:
         e.append(xglyph(75, 54, 38))
         e.append('<circle cx="75" cy="54" r="4.5" fill="#8a1f14"/>')
-        e.append('<text x="75" y="106" text-anchor="middle" font-size="11" fill="#8a1f14">32&deg; feet &middot; screw the centre</text>')
+        e.append('<text x="75" y="106" text-anchor="middle" font-size="11" fill="#8a1f14">33&deg; feet &middot; screw the centre</text>')
     else:
         e.append(xglyph(LX, cy, 24))
         e.append(xglyph(RX, cy, 24))
@@ -186,10 +188,10 @@ STEPS = [
  ("2","<b>Stand them and lay the first two planks.</b><ul>"
       "<li>Stand the two X sets parallel, on the ground.</li>"
       "<li>Lay the first two 900 planks in the V, one front, one back.</li>"
-      "<li>Cut <b>one edge of the front plank at 22.5&deg;</b> so it sits snug in the V.</li>"
+      "<li>Cut <b>one edge of the front plank at 33&deg;</b> so it sits snug in the V.</li>"
       "<li>The back plank lands on top of the front, so it sits 23&nbsp;mm higher. <b>Trim 23&nbsp;mm off</b> it so both tops come level.</li></ul>",
       "<ul><li>Both X sets parallel = the box goes up straight.</li>"
-      "<li>The 22.5&deg; cut makes the plank nest into the V, not rock on the corner.</li>"
+      "<li>The 33&deg; cut makes the plank nest into the V, not rock on the corner.</li>"
       "<li>Level first planks = level box. This is the one that sets it.</li></ul>"),
  ("3","<b>Lay the rest of the 900s.</b><ul>"
       "<li>Carry on stacking: 4 planks on the front, 4 on the back, one on top of the other.</li>"
@@ -297,4 +299,4 @@ html = f'''<!doctype html><html><head><meta charset="utf-8"><style>{CSS}</style>
 </body></html>'''
 
 open("/workspace/plan/herb-box-v2.html","w").write(html)
-print("html", len(html), "tilt", TILT_DEG, "spread", round(TOP_SPREAD,1), "vhalf", round(vhalf,1))
+print("html", len(html), "tilt", TILT_DEG, "inner", round(2*half_inner,1), "vhalf", round(vhalf,1))
