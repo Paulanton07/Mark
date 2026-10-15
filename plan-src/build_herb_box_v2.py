@@ -76,6 +76,23 @@ def rotrect(cx, cy, length, width, ang, cls):
     return (f'<rect x="{-length/2:.1f}" y="{-width/2:.1f}" width="{length:.1f}" '
             f'height="{width:.1f}" class="{cls}" transform="translate({cx:.1f},{cy:.1f}) rotate({ang:.1f})"/>')
 
+def legpoly(cx, cy, length, width, ang, cls):
+    # A leg whose BOTTOM end is cut at 33deg (foot face horizontal, sits flat on the
+    # ground), not square. Top end stays square to the axis. The foot is the horizontal
+    # line through the bottom centre point, so the face runs 33deg off the square end.
+    a  = math.radians(ang)
+    ca, sa = math.cos(a), math.sin(a)
+    L, W = length, width
+    cot = ca/sa
+    def pt(lx, ly):
+        return (cx + lx*ca - ly*sa, cy + lx*sa + ly*ca)
+    tl = pt(L/2.0,  W/2.0)
+    tr = pt(L/2.0, -W/2.0)
+    br = pt(-L/2.0 + (W/2.0)*cot, -W/2.0)   # where the flat foot meets the right edge
+    bl = pt(-L/2.0 - (W/2.0)*cot,  W/2.0)   # where the flat foot meets the left edge
+    pts = " ".join(f"{x:.1f},{y:.1f}" for x, y in (tl, tr, br, bl))
+    return f'<polygon points="{pts}" class="{cls}"/>'
+
 # ---------- HERO: the X joint (stage 1) ----------
 def detail_svg():
     s = 0.40
@@ -88,12 +105,10 @@ def detail_svg():
     tpx = T*s
     e = []
     e.append(f'<line x1="30" y1="{sy(-vhalf)+4:.1f}" x2="{wx-30}" y2="{sy(-vhalf)+4:.1f}" class="ground"/>')
-    # clamped straight plank (the reference you press the 33deg foot against)
-    e.append(f'<rect x="{sx(-half-40):.1f}" y="{sy(-vhalf)-Wpx-10:.1f}" width="{(2*half+80)*s:.1f}" height="{Wpx*0.55:.1f}" class="part2"/>')
-    e.append(f'<text x="{sx(0):.1f}" y="{sy(-vhalf)+20:.1f}" class="dimtxt" style="font-size:11px;">straight plank clamped to the table</text>')
     # lower leg first (outside leg), then upper leg shifted up one thickness (inside leg)
-    e.append(rotrect(crossx, crossy, Lpx, Wpx, -(90.0-theta), 'leg'))
-    e.append(rotrect(crossx, crossy - tpx, Lpx, Wpx, -(90.0+theta), 'leg'))
+    # both feet cut at 33deg: the foot face is flat on the ground
+    e.append(legpoly(crossx, crossy, Lpx, Wpx, -(90.0-theta), 'leg'))
+    e.append(legpoly(crossx, crossy - tpx, Lpx, Wpx, -(90.0+theta), 'leg'))
     # the crossing: upper leg lies on top of lower; one centre screw through both
     e.append(f'<circle cx="{crossx:.1f}" cy="{crossy-tpx/2:.1f}" r="5" class="screw"/>')
     # top spread dim, between the leg tips
@@ -109,8 +124,8 @@ def detail_svg():
     e.append(f'<line x1="{crossx+8:.1f}" y1="{crossy-6:.1f}" x2="{crossx+60:.1f}" y2="{crossy-40:.1f}" class="dim"/>')
     e.append(f'<text x="{crossx+64:.1f}" y="{crossy-42:.1f}" class="dimtxt v" style="font-size:11px;">upper leg on top</text>')
     # foot angle labels
-    e.append(f'<text x="{sx(-half)-10:.1f}" y="{sy(-vhalf)+2:.1f}" class="dimtxt" style="font-size:11px;">33&deg; foot</text>')
-    e.append(f'<text x="{sx(half)+10:.1f}" y="{sy(-vhalf)+2:.1f}" class="dimtxt" style="font-size:11px;">33&deg; foot</text>')
+    e.append(f'<text x="{sx(-half)-14:.1f}" y="{sy(-vhalf)+22:.1f}" class="dimtxt" style="font-size:11px;text-anchor:middle;">33&deg; foot</text>')
+    e.append(f'<text x="{sx(half)+14:.1f}" y="{sy(-vhalf)+22:.1f}" class="dimtxt" style="font-size:11px;text-anchor:middle;">33&deg; foot</text>')
     # leg-tilt callouts at the crossing
     e.append(f'<line x1="{crossx:.1f}" y1="{crossy:.1f}" x2="{crossx:.1f}" y2="{crossy-vhalf*s*0.72:.1f}" class="dim" stroke-dasharray="4 3"/>')
     e.append(f'<text x="{crossx-6:.1f}" y="{crossy-vhalf*s*0.62:.1f}" class="dimtxt" style="font-size:12px;text-anchor:end;">{TILT_DEG:.1f}&deg; a side</text>')
