@@ -258,45 +258,64 @@ def cutdiag_svg():
     y += 40
     dx = h*math.tan(math.radians(22.5))
     e.append(f'<polygon points="{x0+dx:.1f},{y} {x0+L:.1f},{y} {x0+L:.1f},{y+h} {x0:.1f},{y+h}" class="part2"/>')
-    e.append(lab(x0+L+10, y+11, '1st base &middot; long edge 22.5&deg;'))
+    e.append(lab(x0+L+10, y+11, '1st plank &middot; bottom edge 22.5&deg;'))
     y += 40
     e.append(rect(x0, y, L-23*sc))
-    e.append(lab(x0+L+10, y+11, '2nd base &middot; trim 23&nbsp;mm off'))
+    e.append(lab(x0+L+10, y+11, '2nd plank &middot; trim 23&nbsp;mm off'))
     y += 40
     e.append(f'<polygon points="{x0},{y+h} {x0+52},{y} {x0+96},{y} {x0+44},{y+h}" class="part"/>')
     e.append(lab(x0+106, y+11, '6&times; side piece &middot; scribed'))
     H = y + h + 14
     return f'<svg width="{W}" height="{H}" viewBox="0 0 {W} {H}">{"".join(e)}</svg>'
 
-# ---------- V-nest panel ----------
+# ---------- the 22.5 V panel ----------
+def _poly(pts, cls):
+    return f'<polygon points="{" ".join(f"{x:.1f},{y:.1f}" for x, y in pts)}" class="{cls}"/>'
+
 def nest_svg():
-    W, H = 470, 250
-    cx, apex = 148.0, 200.0
-    ca, sa = math.cos(math.radians(57)), math.sin(math.radians(57))
-    face = 200.0
+    # END VIEW. The X legs are the end frames. The box is not a flat tray dropped in:
+    # it is its own V - both long sides lean in at 22.5deg and meet at the bottom.
+    W, H = 560, 356
+    cx = 276.0
+    ground = 295.0
+    lean = math.radians(V_BEVEL)          # 22.5  - how far each side leans in
+    halfL = (700*0.335)/2.0
+    crossx, crossy = cx, 196.0
     e = []
-    # upper legs (the V) + short lower stubs below the crossing
-    e.append(f'<line x1="{cx}" y1="{apex}" x2="{cx-ca*face:.1f}" y2="{apex-sa*face:.1f}" stroke="#2a2a2a" stroke-width="9" stroke-linecap="round"/>')
-    e.append(f'<line x1="{cx}" y1="{apex}" x2="{cx+ca*face:.1f}" y2="{apex-sa*face:.1f}" stroke="#2a2a2a" stroke-width="9" stroke-linecap="round"/>')
-    e.append(f'<line x1="{cx}" y1="{apex}" x2="{cx-ca*55:.1f}" y2="{apex+sa*55:.1f}" stroke="#2a2a2a" stroke-width="7" stroke-linecap="round"/>')
-    e.append(f'<line x1="{cx}" y1="{apex}" x2="{cx+ca*55:.1f}" y2="{apex+sa*55:.1f}" stroke="#2a2a2a" stroke-width="7" stroke-linecap="round"/>')
-    # 1st base plank lying on the left face
-    p1x, p1y = cx-ca*95, apex-sa*95
-    e.append(rotrect(p1x, p1y, 78, 15, -123, 'part2'))
-    # 2nd base plank, one thickness in, dashed
-    p2x, p2y = cx-ca*95 + sa*16, apex-sa*95 - ca*16
-    e.append(f'<g opacity="0.55">{rotrect(p2x, p2y, 78, 15, -123, "part")}</g>')
-    # 22.5 bevel mark at the plank's lower (inner) end
-    ex, ey = p1x + ca*34, p1y + sa*34
-    e.append(f'<line x1="{ex:.1f}" y1="{ey:.1f}" x2="{ex+18:.1f}" y2="{ey-6:.1f}" class="hline"/>')
-    e.append(f'<text x="{ex+24:.1f}" y="{ey+2:.1f}" class="dimtxt v" style="font-size:11px;fill:#8a1f14;">22.5&deg; on the inner edge</text>')
-    # labels
-    e.append(f'<text x="300" y="46" class="dimtxt v" style="font-size:11px;">1st plank: beds into the V,</text>')
-    e.append(f'<text x="300" y="60" class="dimtxt v" style="font-size:11px;">inner edge cut 22.5&deg;</text>')
-    e.append(f'<text x="300" y="88" class="dimtxt v" style="font-size:11px;">2nd plank: lands one</text>')
-    e.append(f'<text x="300" y="102" class="dimtxt v" style="font-size:11px;">thickness higher, trim 23&nbsp;mm</text>')
-    e.append(f'<text x="{apex-30:.1f}" y="{apex+34:.1f}" class="dimtxt" style="font-size:10px;">crossing</text>')
-    e.append('<text x="24" y="16" class="vt">THE V-NEST - stage 2</text>')
+    e.append(f'<line x1="64" y1="{ground:.1f}" x2="{W-44}" y2="{ground:.1f}" class="ground"/>')
+    # two legs crossing at the centre, 33deg off vertical, feet flat
+    e.append(legpoly(crossx, crossy, 700*0.335, 17, -(90.0-TILT_DEG), 'leg'))
+    e.append(legpoly(crossx, crossy, 700*0.335, 17, -(90.0+TILT_DEG), 'leg'))
+    # the box: two long sides leaning in at 22.5 to a narrow bottom
+    top_y, bot_y = 100.0, 196.0
+    tin, tout = 3.0, 25.0
+    dx = (bot_y-top_y)*math.tan(lean)
+    def side(sign):
+        ibx, obx = cx + sign*tin, cx + sign*tout
+        itx, otx = ibx + sign*dx, obx + sign*dx
+        out = [_poly([(ibx,bot_y),(obx,bot_y),(otx,top_y),(itx,top_y)], 'part2')]
+        for i in (1,2,3):
+            y = bot_y + (top_y-bot_y)*i/4.0
+            t = (bot_y-y)/(bot_y-top_y)
+            out.append(f'<line x1="{ibx+sign*dx*t:.1f}" y1="{y:.1f}" x2="{obx+sign*dx*t:.1f}" y2="{y:.1f}" class="dim"/>')
+        return "".join(out)
+    e.append(side(-1)); e.append(side(1))
+    # angle arc at the top of the right side: vertical vs the side
+    otx = cx + tout + dx
+    r = 46.0
+    ax, ay = otx + r*math.sin(lean), top_y - r*math.cos(lean)
+    e.append(f'<line x1="{otx:.1f}" y1="{top_y:.1f}" x2="{otx:.1f}" y2="{top_y-r-6:.1f}" class="dim" stroke-dasharray="4 3"/>')
+    e.append(f'<path d="M {otx:.1f} {top_y-r:.1f} A {r:.1f} {r:.1f} 0 0 1 {ax:.1f} {ay:.1f}" class="dim" fill="none"/>')
+    e.append(f'<text x="{otx+14:.1f}" y="{top_y-r-2:.1f}" class="dimtxt" style="font-size:13px;fill:#8a1f14;">22.5&deg;</text>')
+    # the cut on the lowest plank's bottom edge
+    e.append(f'<line x1="{cx+tout-4:.1f}" y1="{bot_y:.1f}" x2="{cx+tout+58:.1f}" y2="{bot_y+30:.1f}" class="hline"/>')
+    e.append(f'<text x="{cx+tout+62:.1f}" y="{bot_y+34:.1f}" class="dimtxt" style="font-size:11px;text-anchor:start;fill:#8a1f14;">lowest plank: bottom edge cut 22.5&deg;,</text>')
+    e.append(f'<text x="{cx+tout+62:.1f}" y="{bot_y+49:.1f}" class="dimtxt" style="font-size:11px;text-anchor:start;fill:#8a1f14;">so it sits level in the V</text>')
+    # notes
+    e.append(f'<text x="24" y="26" class="dimtxt" style="font-size:11px;text-anchor:start;">the box is its own V - two sides leaning in, meeting at the bottom</text>')
+    e.append(f'<text x="24" y="44" class="dimtxt" style="font-size:11px;text-anchor:start;">4 planks per side; the leg V just holds the ends</text>')
+    e.append(f'<text x="{crossx-58:.1f}" y="{crossy+30:.1f}" class="dimtxt" style="font-size:11px;">33&deg; leg</text>')
+    e.append('<text x="24" y="14" class="vt">THE 22.5&deg; V - stage 2</text>')
     return f'<svg width="{W}" height="{H}" viewBox="0 0 {W} {H}">{"".join(e)}</svg>'
 
 def _datauri(path):
@@ -349,15 +368,15 @@ html = f'''<!doctype html><html><head><meta charset="utf-8"><style>{CSS}</style>
 
 <div class="pg">
 <h1 style="font-size:23px;">Cut list, drawn <span class="tag">what to cut</span></h1>
-<div class="sub">Every cut in the build. Three numbers hold the whole thing: <b>33&deg;</b> on the foot, <b>22.5&deg;</b> on the base plank's inner edge, and the rest square.</div>
+<div class="sub">Every cut in the build. Two angles hold the whole thing: <b>33&deg;</b> on the leg, <b>22.5&deg;</b> in the V, and the rest square.</div>
 <div class="draw">{cutdiag_svg()}</div>
-<h2>The V-nest</h2>
+<h2>The 22.5&deg; V</h2>
 <div class="draw">{nest_svg()}</div>
-<div class="cap"><b>How the two base planks sit in the V.</b> The first beds into the V with its inner long edge cut at 22.5&deg;. The second lands one plank thickness (23&nbsp;mm) higher, so trim 23&nbsp;mm off it and both tops come level.</div>
-<div class="q"><b>The one cut that fools people</b><ul>
-<li>33&deg; is the <b>foot</b> (and the leg lean). Cut every foot off the same saw setting.</li>
-<li>22.5&deg; is the <b>base plank's inner edge</b>, and only that. It is not the foot.</li>
-<li>The sides are <b>not</b> cut to a number - they are scribed off an offcut held in the V.</li></ul></div>
+<div class="cap"><b>The box is built into the leg V as its own V.</b> Both long sides lean in at 22.5&deg; and close at the bottom. The lowest plank's bottom edge is cut at 22.5&deg; so it sits level; the second lands one thickness (23&nbsp;mm) higher, so trim 23&nbsp;mm off its bottom edge and the tops come level.</div>
+<div class="q"><b>The two angles that fool everyone</b><ul>
+<li>33&deg; is the <b>leg</b> - the foot cut and the lean, one saw setting. Nothing else is 33&deg;.</li>
+<li>22.5&deg; is the <b>V</b> - how far each side leans in, and the cut on the lowest plank's bottom edge to match it.</li>
+<li>Each side above that is <b>scribed</b> off an offcut stood in the V, not set to a number.</li></ul></div>
 </div>
 
 <div class="pg">
