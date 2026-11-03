@@ -461,7 +461,7 @@ html = f'''<!doctype html><html><head><meta charset="utf-8"><style>{CSS}</style>
 <div class="pg">
 <h1 style="font-size:23px;">The rules <span class="tag">read this first</span></h1>
 <div class="q"><b>Two rules that decide this build</b><ul>
-<li><b>One saw setting for all four feet.</b> Cut every 33&deg; end off the same stop. One foot cut on its own and the box stands on three legs.</li>
+<li><b>One saw setting for all four feet.</b> Cut every 33&deg; end off the same stop. Cut one foot on its own and the box rocks.</li>
 <li><b>Lock the crossing.</b> A single screw lets the X scissor. Add 3-4 screws, or bolt it.</li></ul></div>
 <div class="q"><b>Locked in from your build photos (14 Oct)</b><ul>
 <li><b>Top = 300, inside corner to inside corner.</b> Read it off the standing frame - it is the check, never a cut-to. Every X the same.</li>
