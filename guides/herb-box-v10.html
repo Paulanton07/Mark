@@ -1,0 +1,208 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+@page { size: A4 portrait; margin: 10mm; }
+* { box-sizing: border-box; }
+body { font-family: "DejaVu Sans", Arial, sans-serif; color:#191919; margin:0; padding:0; }
+h1 { font-size: 30px; margin:0 0 3px 0; }
+h2 { font-size: 18px; text-transform:uppercase; letter-spacing:1px; color:#5a5a5a; margin:11px 0 4px 0; border-bottom:2px solid #cfcfcf; padding-bottom:3px;}
+.sub { font-size:17px; color:#444; margin-bottom:6px; line-height:1.34; }
+.sub ul { margin:2px 0 4px 0; padding-left:18px; }
+.sub li { margin:2px 0; }
+.draw { text-align:center; margin:5px 0 1px 0; }
+.draw svg { display:block; margin:0 auto; }
+.part { fill:#efe8dc; stroke:#2a2a2a; stroke-width:1.1; }
+.part2 { fill:#e3d9c6; stroke:#2a2a2a; stroke-width:1.1; }
+.leg { fill:#d9c9ad; stroke:#2a2a2a; stroke-width:1.2; }
+.soil { fill:#cfe3c2; opacity:0.55; stroke:#7a9a5a; stroke-width:0.8; }
+.ground { stroke:#2a2a2a; stroke-width:1.8; }
+.dim { stroke:#7a7a7a; stroke-width:0.8; }
+.dimtxt { fill:#222; font-size:14px; text-anchor:middle; dominant-baseline:middle; paint-order:stroke; stroke:#ffffff; stroke-width:5px; }
+.dimtxt.v { text-anchor:start; }
+.wall { fill:#e3d9c6; stroke:#2a2a2a; stroke-width:1.3; }
+.board { fill:#e3d9c6; stroke:#2a2a2a; stroke-width:1.3; }
+.board2 { fill:#d7c9b1; stroke:#2a2a2a; stroke-width:1.3; }
+.leg2 { fill:#cbb894; stroke:#2a2a2a; stroke-width:1.3; }
+.div { stroke:#6f6f6f; stroke-width:1.0; stroke-dasharray:5 4; }
+.gauge { stroke:#8a1f14; stroke-width:1.8; }
+.glab { font-size:18px; fill:#8a1f14; text-anchor:middle; font-weight:bold; }
+.vlab { font-size:18px; fill:#2a2a2a; text-anchor:middle; font-weight:bold; }
+.plab { font-size:16px; fill:#3a3a3a; text-anchor:start; }
+
+.vt { text-anchor:start; font-size:17px; font-weight:bold; fill:#3a3a3a; letter-spacing:0.4px; }
+.cap { font-size:16px; color:#444; margin:2px auto 8px auto; max-width:690px; line-height:1.28; text-align:center; }
+table { width:100%; border-collapse:collapse; font-size:17px; }
+th,td { text-align:left; padding:5px 6px; border-bottom:1px solid #ddd; vertical-align:top; }
+th { color:#5a5a5a; font-weight:700; text-transform:uppercase; font-size:14px; letter-spacing:0.4px;}
+.q { font-size:17px; background:#fff6e8; border:1px solid #e8d3a8; padding:8px 10px; margin-top:9px; border-radius:3px; }
+.q ul { margin:4px 0; padding-left:17px; }
+.q li { margin:2px 0; }
+.tag { display:inline-block; font-size:15px; border:1px solid #999; border-radius:3px; padding:2px 8px; margin-left:8px; color:#555; vertical-align:middle; }
+.steps td { padding:6px; line-height:1.3; font-size:16px; }
+.steps th { font-size:14px; }
+.steps td ul { margin:3px 0; padding-left:16px; }
+.steps td li { margin:2px 0; }
+.num { font-weight:800; color:#8a1f14; text-align:center; font-size:22px; }
+.hl { fill:#f4b183; stroke:#a8410f; stroke-width:1.3; }
+.hline { stroke:#a8410f; stroke-width:2.4; fill:none; }
+.screw { fill:#8a1f14; }
+.leg.over { stroke-width:2.2; }
+.legfar { fill:#efe6d6; stroke:#8a8073; stroke-width:1.1; }
+.steps_grid { display:grid; grid-template-columns:1fr 1fr; gap:6px 9px; }
+.steps td.chk { background:#f6efe2; font-size:14.5px; color:#4a3b23; padding:6px 8px; border-left:4px solid #8a1f14; }
+.tile { border:1px solid #ddd; border-radius:5px; padding:5px 7px 6px 7px; }
+.tile svg { display:block; margin:1px auto 3px auto; }
+.tnum { display:inline-block; font-weight:800; color:#fff; background:#8a1f14; border-radius:3px; font-size:14px; padding:1px 7px; }
+.tcap { font-size:15px; line-height:1.22; color:#222; }
+.pg { page-break-before: always; }
+.refgrid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:6px; }
+.refgrid figure { margin:0; border:1px solid #ddd; border-radius:5px; padding:5px; }
+.refgrid img { width:100%; height:84mm; object-fit:cover; display:block; border-radius:3px; }
+.refgrid figcaption { font-size:15px; color:#333; padding:4px 2px 0 2px; line-height:1.22; }
+</style></head><body>
+
+<h1>X-Leg Herb Trough <span class="tag">tutorial &middot; v10</span></h1>
+<div class="sub"><ul>
+<li>Two X-leg frames carry a <b>900</b> trough.</li>
+<li>Legs <b>4&times;700</b>. Cross planks <b>8&times;900</b>. Planks <b>80 wide, 23 thick</b>.</li>
+<li><b>Gauge 300</b>, inside corner to inside corner.</li>
+<li>Read the gauge off the frame. Never cut to it.</li>
+<li>Legs do not notch. One plank in front, one behind, <b>one thickness apart</b>.</li>
+<li>The ends are <b>scribed</b> off an offcut. Not a number.</li>
+<li>One trim only: <b>one plank thickness</b> off the second floor plank.</li>
+<li>Shown at 900 long, 4 planks deep. All in mm.</li></ul></div>
+
+<div class="draw"><svg width="470" height="346" viewBox="0 0 470 346"><line x1="30" y1="290.8" x2="440" y2="290.8" class="ground"/><polygon points="172.2,47.3 145.3,64.7 292.2,290.8 330.3,290.8" class="legfar"/><polygon points="324.7,64.7 297.8,47.3 139.7,290.8 177.8,290.8" class="leg"/><line x1="183.2" y1="93.6" x2="137.2" y2="67.6" class="dim"/><text x="133.2" y="61.6" class="dimtxt" style="font-size:11px;text-anchor:end;">inside plank &#8212; one thickness behind</text><line x1="183.2" y1="253.3" x2="229.2" y2="279.3" class="dim"/><text x="233.2" y="285.3" class="dimtxt" style="font-size:11px;text-anchor:start;">outside plank &#8212; in front</text><circle cx="235.0" cy="173.4" r="5" class="screw"/><line x1="177.8" y1="42.0" x2="292.2" y2="42.0" class="dim"/><line x1="177.8" y1="37.0" x2="177.8" y2="47.0" class="dim"/><line x1="292.2" y1="37.0" x2="292.2" y2="47.0" class="dim"/><rect x="177.0" y="33.0" width="116" height="18" fill="#fff"/><text x="235.0" y="42.0" class="dimtxt" style="font-size:12px;">286 top, inside faces</text><text x="235.0" y="62.0" class="dimtxt" style="font-size:10px;fill:#8a1f14;">300 = gauge you read off the frame, not a cut-to</text><text x="341.2" y="157.4" class="dimtxt v" style="font-size:11px;">700 leg</text><line x1="243.0" y1="181.4" x2="297.0" y2="217.4" class="dim"/><text x="299.0" y="219.4" class="dimtxt v" style="font-size:11px;">offset is sideways. Not up.</text><text x="144.8" y="312.8" class="dimtxt" style="font-size:11px;text-anchor:middle;">33&deg; foot</text><text x="325.2" y="312.8" class="dimtxt" style="font-size:11px;text-anchor:middle;">33&deg; foot</text><line x1="235.0" y1="173.4" x2="235.0" y2="88.9" class="dim" stroke-dasharray="4 3"/><text x="229.0" y="100.6" class="dimtxt" style="font-size:12px;text-anchor:end;">33.0&deg; a side</text><text x="20" y="15" class="vt">X JOINT - stage 1</text></svg></div>
+<div class="cap" style="text-align:left;max-width:660px;"><b>The joint decides the box.</b><ul>
+<li>Two 700 legs, crossed. <b>Both feet reach the floor.</b></li>
+<li>The inside plank sits one thickness behind the outside plank.</li>
+<li>That offset is <b>sideways</b>, out of the page. Nothing rides up.</li>
+<li>Two frames. <b>Mirror pair:</b> the outside plank swaps sides.</li>
+<li>35&nbsp;mm part-threaded: through the near plank, bites the far one.</li>
+<li>Span between the inner faces: <b>286</b>. Worked out, not measured.</li>
+<li><b>2 &times; (350&middot;sin33&deg; &minus; 40&divide;cos33&deg;) = 286</b></li>
+<li><b>300</b> is the gauge on the standing frame. Not a cut-to.</li>
+<li>Foot flush on the clamped plank, top at 300. Frame stands true. Both frames match.</li></ul></div>
+
+<div class="pg">
+<h2>Cut list</h2>
+<table>
+  <tr><th>Part</th><th>Qty</th><th>Length</th><th>Width</th><th>Thick</th><th>Note</th></tr>
+  <tr><td>Leg</td><td>4</td><td>700</td><td>80</td><td>23</td><td>one end cut 33&deg;, all four one setting</td></tr>
+  <tr><td>Cross plank (wall)</td><td>8</td><td>900</td><td>80</td><td>23</td><td>4 front, 4 back</td></tr>
+  <tr><td>Side piece</td><td>6</td><td>scribed</td><td>80</td><td>23</td><td>3 per end, marked off an offcut</td></tr>
+  <tr><td>- of those, the bottom pair</td><td>2</td><td>900</td><td>80</td><td>23</td><td>first plank's inner long edge cut 22.5&deg; into the V; second trimmed one plank thickness</td></tr>
+</table>
+<h2>Buy it in your yard's stock</h2>
+<div class="sub" style="font-size:15px;"><ul>
+<li><b>Timber: 6 lengths of 2&nbsp;m</b>, 80 wide &times; 23 thick.</li>
+<li>Legs: 4&times;700 = 2,800. <b>2 lengths.</b> Two legs per length.</li>
+<li>Walls: 8&times;900 = 7,200. <b>4 lengths.</b> Two per length, 200 off each.</li>
+<li>Offcuts left: two 600s, four 200s.</li>
+<li><b>Watch the sides.</b> Six side pieces come off the two 600s. Longest first.</li>
+<li>Needs more than 600? Buy a 7th length.</li>
+<li><b>The trim is 23.</b> One plank thickness. Your number, same rule.</li>
+<li><b>Buying 90 wide instead?</b> Two numbers change. Nothing else does.</li>
+<li>Crossing mark: <b>45 across</b>. Half of 90, not 40.</li>
+<li>Top span between leg inner faces: <b>274</b>. Same formula, 45 in place of 40.</li>
+<li>700, 900, 33&deg;, 22.5&deg;, the thickness trim: all the same.</li>
+<li>The drawing here is at 80 wide.</li>
+<li>Untreated pine or hardwood. Untreated: it is a food bed.</li>
+<li><b>35&nbsp;mm part-threaded screws</b> for the crossing and the side courses.</li>
+<li>A <b>6&nbsp;mm or 10&nbsp;mm bolt</b> through each crossing if you want it to never move.</li>
+<li>Stainless or coated only. Wood oil (Woodoc) outside and on the feet.</li>
+</ul></div>
+
+<div class="pg">
+<h1 style="font-size:23px;">The rules <span class="tag">read this first</span></h1>
+<div class="q"><b>Two rules that decide this build</b><ul>
+<li><b>One saw setting for all four feet.</b> Cut every 33&deg; end off the same stop. Cut one foot on its own and the box rocks.</li>
+<li><b>Lock the crossing.</b> A single screw lets the X scissor. Add 3-4 screws, or bolt it.</li></ul></div>
+<div class="q"><b>Locked in from your build photos (14 Oct)</b><ul>
+<li><b>Top = 300, inside corner to inside corner.</b> Read it off the standing frame - it is the check, never a cut-to. Every X the same.</li>
+<li><b>Feet cut at 33&deg;</b> so they sit flat. Method: clamp a plank, leg flush, one centre screw into the middle of the plank.</li>
+<li><b>The two legs never notch.</b> They lie parallel, one thickness apart, on the same centre line. Both feet therefore reach the floor. That gives an inside plank and an outside plank.</li>
+<li><b>Spacer blocks at the shoulder.</b> Small blocks fill the gap between the angled leg head and the underside of the first planks. Drawn from the ~60 and ~75&nbsp;mm marks in your shots.</li>
+<li><b>One wall flush, one proud.</b> The back planks run <b>flush to the outside leg</b>; the front planks stand <b>one plank thickness proud</b> (23&nbsp;mm for 23&nbsp;mm stock), as in your shots.</li>
+</ul></div>
+<h2>Every cut, drawn</h2>
+<div class="draw"><svg width="470" height="205" viewBox="0 0 470 205"><polygon points="28.4,18 202.0,18 202.0,31 20.0,31" class="leg"/><text x="212.0" y="29.0" class="dimtxt v" style="font-size:10px;">4&times; leg 700 &middot; one end 33&deg;</text><rect x="20.0" y="58.0" width="234.0" height="13" class="part" rx="1"/><text x="264.0" y="69.0" class="dimtxt v" style="font-size:10px;">8&times; wall plank 900</text><polygon points="25.4,98 254.0,98 254.0,111 20.0,111" class="part2"/><text x="264.0" y="109.0" class="dimtxt v" style="font-size:10px;">1st plank &middot; bottom edge 22.5&deg;</text><rect x="20.0" y="138.0" width="228.0" height="13" class="part" rx="1"/><text x="264.0" y="149.0" class="dimtxt v" style="font-size:10px;">2nd plank &middot; trim one thickness off</text><polygon points="20,191 72,178 116,178 64,191" class="part"/><text x="126.0" y="189.0" class="dimtxt v" style="font-size:10px;">6&times; side piece &middot; scribed</text></svg></div>
+<div class="sub" style="font-size:16px;text-align:center;">Two angles hold the whole thing. <b>33&deg;</b> on the leg. <b>22.5&deg;</b> in the V. The rest square.</div>
+</div>
+
+<div class="pg">
+<h1 style="font-size:23px;">Where the planks sit <span class="tag">end view</span></h1>
+<div class="draw"><svg width="330" height="395" viewBox="0 0 330 395"><polygon points="121.0,60.0 132.0,86.7 144.5,86.7 133.4,60.0" class="board"/><polygon points="209.0,60.0 198.0,86.7 185.5,86.7 196.6,60.0" class="board"/><polygon points="132.0,86.7 143.1,113.3 155.5,113.3 144.5,86.7" class="board2"/><polygon points="198.0,86.7 186.9,113.3 174.5,113.3 185.5,86.7" class="board2"/><polygon points="143.1,113.3 154.1,140.0 166.6,140.0 155.5,113.3" class="board"/><polygon points="186.9,113.3 175.9,140.0 163.4,140.0 174.5,113.3" class="board"/><polygon points="49.4,55.9 82.9,34.1 280.6,338.5 232.9,338.5" class="leg2"/><polygon points="280.6,55.9 247.1,34.1 49.4,338.5 97.1,338.5" class="leg"/><line x1="42.0" y1="338.5" x2="288.0" y2="338.5" class="ground"/><line x1="90.0" y1="37.0" x2="240.0" y2="37.0" class="gauge"/><text x="165.0" y="30.5" class="glab" style="font-size:15px;">300 gauge, read it off the frame</text><text x="165.0" y="355.5" class="vlab">the 900 planks lie inside the V</text></svg></div>
+<div class="cap" style="text-align:left;max-width:690px;"><b>End view: the planks sit inside the V.</b><ul>
+<li>Not a tray on top. It drops down inside the X.</li>
+<li>Both sides lean in at <b>22.5&deg;</b> to a narrow bottom.</li>
+<li>Leg tops stand proud above the rim.</li>
+<li>Lowest plank: bottom edge cut at 22.5&deg;, so it sits level.</li>
+<li>Next plank lands one thickness higher. <b>Trim one thickness off its long edge.</b> Tops come level.</li></ul></div>
+<div class="q"><b>The two angles that fool everyone</b><ul>
+<li>33&deg; is the <b>leg</b> - the foot cut and the lean, one saw setting. Nothing else is 33&deg;.</li>
+<li>22.5&deg; is the <b>V</b> - how far each side leans in, and the cut on the lowest plank's bottom edge to match it. A chosen call: it beds the plank into the V, it is <b>not</b> derived from the 33&deg;.</li>
+<li>Each side above that is <b>scribed</b> off an offcut stood in the V, not set to a number.</li></ul></div>
+</div>
+
+<div class="pg">
+<h1 style="font-size:23px;">The trim, up close <span class="tag">the one lengthwise cut</span></h1>
+<div class="draw"><svg width="680" height="250" viewBox="0 0 680 250"><rect x="0" y="0" width="680" height="250" fill="#ffffff"/><text x="40" y="30" font-size="16" font-weight="bold" fill="#2a2a2a">THE ONLY LENGTHWISE TRIM</text><text x="40" y="52" font-size="14" fill="#4a4238">23 is one plank thickness. 19 stock: trim 19.</text><rect x="96" y="129" width="300" height="26" fill="#efe3d0" stroke="#5a5148" stroke-width="1.4"/><text x="112" y="147" font-size="13" fill="#4a4238">second plank</text><rect x="70" y="158" width="300" height="26" fill="#e8d9c3" stroke="#5a5148" stroke-width="1.4"/><text x="354" y="176" font-size="13" fill="#4a4238" text-anchor="end">first floor plank</text><line x1="70" y1="129" x2="396" y2="129" stroke="#2a2a2a" stroke-width="1.2" stroke-dasharray="7 5"/><text x="404" y="134" font-size="13" fill="#2a2a2a">level line</text><rect x="370" y="129" width="26" height="26" fill="#8a1f14" opacity="0.3" stroke="#8a1f14" stroke-width="1.2" stroke-dasharray="4 3"/><line x1="370" y1="119" x2="370" y2="192" stroke="#8a1f14" stroke-width="1.6"/><text x="376" y="113" font-size="14" fill="#8a1f14">cut this sliver off the long edge</text><line x1="370" y1="196" x2="396" y2="196" stroke="#8a1f14" stroke-width="1.4"/><line x1="370" y1="192" x2="370" y2="200" stroke="#8a1f14" stroke-width="1.4"/><line x1="396" y1="192" x2="396" y2="200" stroke="#8a1f14" stroke-width="1.4"/><text x="362" y="202" font-size="16" font-weight="bold" fill="#8a1f14" text-anchor="end">23</text><text x="404" y="202" font-size="13" fill="#8a1f14">= one plank thickness</text></svg></div>
+<div class="q"><b>How to get it level</b><ul>
+<li>First floor plank beds into the V on its 22.5&deg; edge.</li>
+<li>Second plank lands <b>one thickness higher</b>. That is the gap.</li>
+<li>Trim <b>one plank thickness</b> off its long edge. The tops then sit level.</li>
+<li>23 is your stock. 19 stock: trim 19. The thickness is the rule, not the number.</li>
+<li>Trim it before you screw. Screwed down and you are planing a fixed course.</li></ul></div>
+</div>
+
+<div class="pg">
+<h1 style="font-size:23px;">Where the screws go <span class="tag">the count</span></h1>
+<div class="draw"><svg width="660" height="302" viewBox="0 0 660 302"><text x="16" y="20" class="vt">SCREW MAP &middot; front</text><text x="16" y="38" font-size="12" fill="#6d6d6d">dashed lines = the X frame, hidden behind the wall planks</text><rect x="24.0" y="54.0" width="612.0" height="216.0" fill="#f3ece0" stroke="#2a2a2a" stroke-width="1.6"/><line x1="24.0" y1="108.0" x2="636.0" y2="108.0" stroke="#8b8377" stroke-width="1.1"/><line x1="24.0" y1="162.0" x2="636.0" y2="162.0" stroke="#8b8377" stroke-width="1.1"/><line x1="24.0" y1="216.0" x2="636.0" y2="216.0" stroke="#8b8377" stroke-width="1.1"/><line x1="32.0" y1="46.0" x2="96.0" y2="278.0" stroke="#6d6d6d" stroke-width="1.6" stroke-dasharray="6 4"/><line x1="96.0" y1="46.0" x2="32.0" y2="278.0" stroke="#6d6d6d" stroke-width="1.6" stroke-dasharray="6 4"/><circle cx="64.0" cy="162.0" r="5.2" class="screw"/><line x1="564.0" y1="46.0" x2="628.0" y2="278.0" stroke="#6d6d6d" stroke-width="1.6" stroke-dasharray="6 4"/><line x1="628.0" y1="46.0" x2="564.0" y2="278.0" stroke="#6d6d6d" stroke-width="1.6" stroke-dasharray="6 4"/><circle cx="596.0" cy="162.0" r="5.2" class="screw"/><circle cx="44.0" cy="81.0" r="3.6" class="screw" opacity="0.85"/><circle cx="84.0" cy="81.0" r="3.6" class="screw" opacity="0.85"/><circle cx="576.0" cy="81.0" r="3.6" class="screw" opacity="0.85"/><circle cx="616.0" cy="81.0" r="3.6" class="screw" opacity="0.85"/><circle cx="44.0" cy="135.0" r="3.6" class="screw" opacity="0.85"/><circle cx="84.0" cy="135.0" r="3.6" class="screw" opacity="0.85"/><circle cx="576.0" cy="135.0" r="3.6" class="screw" opacity="0.85"/><circle cx="616.0" cy="135.0" r="3.6" class="screw" opacity="0.85"/><circle cx="44.0" cy="189.0" r="3.6" class="screw" opacity="0.85"/><circle cx="84.0" cy="189.0" r="3.6" class="screw" opacity="0.85"/><circle cx="576.0" cy="189.0" r="3.6" class="screw" opacity="0.85"/><circle cx="616.0" cy="189.0" r="3.6" class="screw" opacity="0.85"/><circle cx="44.0" cy="243.0" r="3.6" class="screw" opacity="0.85"/><circle cx="84.0" cy="243.0" r="3.6" class="screw" opacity="0.85"/><circle cx="576.0" cy="243.0" r="3.6" class="screw" opacity="0.85"/><circle cx="616.0" cy="243.0" r="3.6" class="screw" opacity="0.85"/><line x1="10.0" y1="292.0" x2="650.0" y2="292.0" class="ground"/><text x="64.0" y="316.0" font-size="12" fill="#6d6d6d" text-anchor="middle">2 screws per plank end</text><text x="596.0" y="316.0" font-size="12" fill="#6d6d6d" text-anchor="middle">same again at the back</text><text x="330.0" y="316.0" font-size="12" fill="#8a1f14" text-anchor="middle">4 screws around each crossing &middot; not 1 in the middle</text></svg></div>
+<table class="steps" style="font-size:15px;">
+<tr><th>Where</th><th style="width:70px;">Screws</th><th>Note</th></tr>
+<tr><td>Crossing, both frames</td><td class="num" style="font-size:17px;">8</td><td>4 around the crossing, or 1 bolt each. One screw lets the X scissor.</td></tr>
+<tr><td>Wall planks to legs</td><td class="num" style="font-size:17px;">32</td><td>2 per plank end. 4 courses &times; 2 sides &times; 2 ends = 16 ends.</td></tr>
+<tr><td>Spacer blocks at the shoulders</td><td class="num" style="font-size:17px;">8</td><td>1 each. The block fills the gap the angled leg head leaves.</td></tr>
+<tr><td>End pieces</td><td class="num" style="font-size:17px;">12</td><td>3 pieces per end, 2 screws each. Glue as well.</td></tr>
+<tr><td><b>Total</b></td><td class="num" style="font-size:17px;">60</td><td><b>A 200 box of 35 mm covers it.</b></td></tr>
+</table>
+<div class="q"><b>Two screw rules</b><ul>
+<li><b>35&nbsp;mm part-threaded.</b> It travels one plank thickness, then bites solid wood. Fully threaded pulls apart instead of clamping.</li>
+<li><b>Pilot drill first.</b> 3&nbsp;mm into pine, 3.5&nbsp;mm into hardwood. No pilot, no second attempt.</li>
+<li><b>Stainless or coated only.</b> It is a food bed.</li>
+<li><b>Never screw into end grain</b> and expect it to hold. The spacer block is there so you do not have to.</li>
+</ul></div>
+</div>
+
+<div class="pg">
+<h1 style="font-size:23px;">The build in four stages <span class="tag">picture sequence</span></h1>
+<div class="sub">Four stages, in order. Do not start the sides until the walls are screwed down and level.</div>
+<div class="steps_grid">
+<div class="tile"><span class="tnum">1</span><svg width="150" height="120" viewBox="0 0 150 120"><line x1="50.3" y1="16.0" x2="99.7" y2="92.0" stroke="#2a2a2a" stroke-width="3.4" stroke-linecap="round"/><line x1="99.7" y1="16.0" x2="50.3" y2="92.0" stroke="#2a2a2a" stroke-width="3.4" stroke-linecap="round"/><circle cx="75" cy="54" r="4.5" fill="#8a1f14"/><text x="75" y="106" text-anchor="middle" font-size="11" fill="#8a1f14">33&deg; feet &middot; screw the centre</text></svg><div class="tcap"><b>The X legs.</b><ul><li>Cut one end of each 700 leg at 33&deg;.</li><li>Upper leg on top of the lower. Centre 350, 40 across.</li><li>One screw through the middle. Make two, mirrored.</li><li>Both sets at the same 300 top gauge.</li></ul></div></div>
+<div class="tile"><span class="tnum">2</span><svg width="150" height="120" viewBox="0 0 150 120"><line x1="8.4" y1="36.0" x2="39.6" y2="84.0" stroke="#2a2a2a" stroke-width="3.4" stroke-linecap="round"/><line x1="39.6" y1="36.0" x2="8.4" y2="84.0" stroke="#2a2a2a" stroke-width="3.4" stroke-linecap="round"/><line x1="110.4" y1="36.0" x2="141.6" y2="84.0" stroke="#2a2a2a" stroke-width="3.4" stroke-linecap="round"/><line x1="141.6" y1="36.0" x2="110.4" y2="84.0" stroke="#2a2a2a" stroke-width="3.4" stroke-linecap="round"/><rect x="44.0" y="52.0" width="62.0" height="6" class="hl" rx="1"/><rect x="44.0" y="61.0" width="62.0" height="6" class="hl" rx="1"/><text x="75" y="106" text-anchor="middle" font-size="11" fill="#8a1f14">first two in the V</text></svg><div class="tcap"><b>Stand them, start the floor.</b><ul><li>Two X sets parallel, set to the 300 gauge.</li><li>First 900: cut one long edge at <b>22.5&deg;</b>, inner edge.</li><li>Second 900 lands one thickness higher.</li><li>Trim one thickness off its long edge.</li></ul></div></div>
+<div class="tile"><span class="tnum">3</span><svg width="150" height="120" viewBox="0 0 150 120"><line x1="8.4" y1="36.0" x2="39.6" y2="84.0" stroke="#2a2a2a" stroke-width="3.4" stroke-linecap="round"/><line x1="39.6" y1="36.0" x2="8.4" y2="84.0" stroke="#2a2a2a" stroke-width="3.4" stroke-linecap="round"/><line x1="110.4" y1="36.0" x2="141.6" y2="84.0" stroke="#2a2a2a" stroke-width="3.4" stroke-linecap="round"/><line x1="141.6" y1="36.0" x2="110.4" y2="84.0" stroke="#2a2a2a" stroke-width="3.4" stroke-linecap="round"/><rect x="44.0" y="30.0" width="62.0" height="6" class="part" rx="1"/><rect x="44.0" y="37.0" width="62.0" height="6" class="part" rx="1"/><rect x="44.0" y="44.0" width="62.0" height="6" class="part" rx="1"/><rect x="44.0" y="51.0" width="62.0" height="6" class="part" rx="1"/><rect x="44.0" y="60.0" width="62.0" height="6" class="part2" rx="1"/><rect x="44.0" y="67.0" width="62.0" height="6" class="part2" rx="1"/><rect x="44.0" y="74.0" width="62.0" height="6" class="part2" rx="1"/><rect x="44.0" y="81.0" width="62.0" height="6" class="part2" rx="1"/><text x="75" y="106" text-anchor="middle" font-size="11" fill="#8a1f14">4 front + 4 back</text></svg><div class="tcap"><b>The rest of the 900s.</b><ul><li>4 planks front, 4 back.</li><li>Flush with the left and right X.</li><li>Back sits one thickness proud.</li><li>Screw down front and back.</li></ul></div></div>
+<div class="tile"><span class="tnum">4</span><svg width="150" height="120" viewBox="0 0 150 120"><line x1="8.4" y1="36.0" x2="39.6" y2="84.0" stroke="#2a2a2a" stroke-width="3.4" stroke-linecap="round"/><line x1="39.6" y1="36.0" x2="8.4" y2="84.0" stroke="#2a2a2a" stroke-width="3.4" stroke-linecap="round"/><line x1="110.4" y1="36.0" x2="141.6" y2="84.0" stroke="#2a2a2a" stroke-width="3.4" stroke-linecap="round"/><line x1="141.6" y1="36.0" x2="110.4" y2="84.0" stroke="#2a2a2a" stroke-width="3.4" stroke-linecap="round"/><rect x="44.0" y="38.0" width="62.0" height="6" class="part" rx="1"/><rect x="44.0" y="45.0" width="62.0" height="6" class="part" rx="1"/><rect x="44.0" y="52.0" width="62.0" height="6" class="part" rx="1"/><rect x="44.0" y="59.0" width="62.0" height="6" class="part" rx="1"/><rect x="18.0" y="30" width="7" height="40" class="hl"/><rect x="125.0" y="30" width="7" height="40" class="hl"/><text x="75" y="106" text-anchor="middle" font-size="11" fill="#8a1f14">sides off an offcut</text></svg><div class="tcap"><b>The sides.</b><ul><li>Hold an offcut in the V. Mark the angle.</li><li>Cut the first side piece. Fit it.</li><li>Next two: mark off the one below. Cut, glue, screw on top.</li><li>Mirror the other end.</li></ul></div></div>
+</div>
+</div>
+
+<div class="pg">
+<h1 style="font-size:23px;">Stage by stage <span class="tag">1 &ndash; 2</span></h1>
+<table class="steps"><tr><th style="width:22px;">#</th><th style="width:50%;">Stage</th><th>Why</th></tr>
+<tr><td class="num">1</td><td><b>The X legs.</b><ul><li>Four legs, 700 long. Cut <b>one end of each</b> at 33&deg; - all four off the <b>same saw setting</b>.</li><li>Find the centre of each leg: 350 along, 40 across (half of 80).</li><li>Clamp a straight plank to the table. Press the 33&deg; end flush against it.</li><li>Lay the second leg alongside the first, <b>parallel, one thickness to the side</b>, to make the X. Pilot hole at the centre.</li><li>Drive a 35&nbsp;mm part-threaded screw through the near plank so it bites the far one &#8212; one thickness of travel.</li><li>Then 3-4 more screws, or swap to a 6&nbsp;mm or 10&nbsp;mm bolt through the crossing.</li><li>Set the standing frame so the <b>top gauges 300, inside corner to inside corner</b> - read it, don't cut to it. Make the second set the same.</li></ul></td><td><ul><li>One saw setting for all four feet = feet that sit level. Cut them one at a time and they fight.</li><li>The clamped plank is the reference - it stops the X leaning while you screw.</li><li>The legs do not notch: parallel, one thickness apart, both feet down. That gives an inside leg and an outside leg.</li><li>A single screw lets the X scissor. Extra screws or a bolt lock the crossing.</li><li>300 top gauge on both sets = the box sits level and the walls line up.</li></ul></td></tr>
+<tr><td></td><td colspan="2" class="chk"><b>Check before stage 2:</b> feet sit flat, both frames the same 286 inside gap. Do not move on until it is true.</td></tr>
+<tr><td class="num">2</td><td><b>Stand them and lay the first two planks.</b><ul><li>Stand the two X sets parallel, on the ground.</li><li>Lay the first two 900 planks in the V, one front, one back.</li><li>Cut <b>one long edge of the first plank at 22.5&deg;</b> - the inner edge where it meets the far leg - so it beds into the V.</li><li>The second plank lands <b>one plank thickness</b> higher, so <b>trim one plank thickness off</b> its long edge - 23&nbsp;mm for 23&nbsp;mm stock - and both tops come level.</li></ul></td><td><ul><li>Both X sets parallel = the box goes up straight.</li><li>The 22.5&deg; on the inner edge is what lets the plank bed into the V instead of rocking on the leg corner.</li><li>Level first planks = level box. This is the one that sets it.</li></ul></td></tr>
+<tr><td></td><td colspan="2" class="chk"><b>Check before stage 3:</b> both starter planks snug in the V and level with each other. Do not move on until it is true.</td></tr>
+</table>
+</div>
+
+<div class="pg">
+<h1 style="font-size:23px;">Stage by stage <span class="tag">3 &ndash; 4</span></h1>
+<table class="steps"><tr><th style="width:22px;">#</th><th style="width:50%;">Stage</th><th>Why</th></tr>
+<tr><td class="num">3</td><td><b>Lay the rest of the 900s.</b><ul><li>Carry on stacking: 4 planks on the front, 4 on the back, one on top of the other.</li><li>All flush with the left and right X planks.</li><li>The back stacks one plank thickness proud (23&nbsp;mm here), behind the outside leg.</li><li>Both sides finish at the same height.</li><li>Screw the stack down, front and back, into the X frames.</li></ul></td><td><ul><li>Flush to the X = straight walls, no stepping.</li><li>The back offset clears the leg, so both walls meet the frame the same way.</li><li>Equal height both sides = a level rim.</li></ul></td></tr>
+<tr><td></td><td colspan="2" class="chk"><b>Check before stage 4:</b> both long sides finish level before you close the ends. Do not move on until it is true.</td></tr>
+<tr><td class="num">4</td><td><b>The sides, scribed off an offcut.</b><ul><li>Hold an offcut horizontal in the bottom of the V. Draw a line from inside to mark the angle of the first side piece.</li><li>Cut to the line, fit it in the V.</li><li>Hold a longer offcut above the first, mark off it, cut the second, glue and screw it on top of the first.</li><li>Third the same, on top of the second.</li><li>Do the same for the opposite end.</li></ul></td><td><ul><li>The V is not a set angle you can measure off a drawing - you scribe each piece off the one below.</li><li>Glue <b>and</b> screw: end grain is weak, the glue takes the load, the screws hold it while it sets.</li><li>Three pieces fill the end from the floor to the rim.</li></ul></td></tr>
+<tr><td></td><td colspan="2" class="chk"><b>Final check:</b> all six end pieces fit inside the V, three at each end. Do not move on until it is true.</td></tr>
+</table>
+</div>
+
+
+</body></html>
